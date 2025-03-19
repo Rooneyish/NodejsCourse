@@ -1,13 +1,18 @@
-import express from 'express';
-
+import express from "express";
+import connectDB from "./database/mongodb.js";
+import authRouter from "./routes/auth.js";
 const app = express();
+const port = 7000;
 
-const port =  7000;
+app.use(express.json());
 
-app.get('/',(req,res)=>{
-    res.send("Welcome to Node js course.")
-})
+app.get("/", (req, res) => {
+  res.send("Welcome to Node js course!");
+});
 
-app.listen(port, ()=>{
-    console.log(`App listening on port ${port}`)
-})
+app.use("/api/auth", authRouter);
+
+app.listen(port, async () => {
+  console.log(`App listening on port ${port}`);
+  await connectDB();
+});
